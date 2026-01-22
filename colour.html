@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: antiquewhite;
+        }
+        h1{
+            font-size: 40px;
+        }
+        .control{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .bar{
+            display: flex;
+            gap: 20px;
+            font-size: 30px;
+        }
+        .nag{
+            margin-top: 20px;
+            font-size: 30px;
+            text-align: center;
+            padding-top: 20px;
+            height: 80vh;
+            width: 20vh;
+            background-color: rgb(249, 197, 158);
+            border-radius: 10px;
+        }
+        .bar a{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            height: 20vh;
+            width: 20vh;
+            background-color: rgb(249, 197, 158);
+            text-align: center;
+            border-radius: 10px;           
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <div class="control">
+        <h1>Dashboard</h1>
+        <button>Light Mode</button>
+        </div>
+        <div class="bar">
+        <div class="nag">Nagivate</div>
+        <a href="">Analytics</a>
+        <a href="">User</a>
+        <a href="">Setting</a>
+        </div>
+        </nav>
+<script>
+    const button = document.querySelector("button");
+    const body = document.querySelector("body");
+    const nag = document.querySelector('.nag');
+    const links = document.querySelectorAll('.bar a');
+    button.addEventListener("click", () => {
+        if(body.style.backgroundColor === "antiquewhite"){
+            body.style.backgroundColor = "black";
+            body.style.color = "white";
+            button.textContent = "Dark Mode";
+            nag.style.backgroundColor = "rgb(34, 41, 82)";
+            links.forEach(link => {
+                link.style.backgroundColor = "rgb(34, 41, 82)";
+            });
+        } else {
+            body.style.backgroundColor = "antiquewhite";
+            body.style.color = "black";
+            button.textContent = "Light Mode";
+            nag.style.backgroundColor = "rgb(249, 197, 158)";
+            links.forEach(link => {
+                link.style.backgroundColor = "rgb(249, 197, 158)";
+            });
+        }
+    });
+</script>
+</body>
+</html>

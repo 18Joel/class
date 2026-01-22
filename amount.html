@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+body {
+  background: #d9d9d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+}
+
+.bank-app {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+}
+
+.balance-card {
+  background: #1e88e5;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.actions input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.actions button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.actions button:first-of-type {
+  background: #43a047;
+}
+
+.actions button:last-of-type {
+  background: #e53935;
+}
+
+#message {
+  font-size: 14px;
+}
+
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="bank-app">
+        <h1>My Bank</h1>
+        <div class="balance-card">
+            <p>Current Balance</p>
+            <h2 id="balance">$0.00</h2>
+        </div>
+
+        <div class="actions">
+            <input type="number" id="amount" placeholder="Enter amount" />
+            <button onclick="deposit()">Deposit</button>
+            <button onclick="withdraw()">Withdraw</button>
+        </div>
+
+        <p id="message"></p>
+  </div>
+
+<script>
+
+let balance = 0;
+
+function updateBalance() {
+  document.getElementById("balance").textContent = `$${balance.toFixed(2)}`;
+}
+
+function deposit() {
+  const amount = parseFloat(document.getElementById("amount").value);
+  const message = document.getElementById("message");
+
+  if (amount > 0) {
+    balance += amount;
+    message.textContent = "Deposit successful!";
+    message.style.color = "green";
+    updateBalance();
+  } else {
+    message.textContent = "Enter a valid amount.";
+    message.style.color = "red";
+  }
+}
+
+function withdraw() {
+  const amount = parseFloat(document.getElementById("amount").value);
+  const message = document.getElementById("message");
+
+  if (amount > 0 && amount <= balance) {
+    balance -= amount;
+    message.textContent = "Withdrawal successful!";
+    message.style.color = "green";
+    updateBalance();
+  } else {
+    message.textContent = "Insufficient balance or invalid amount.";
+    message.style.color = "red";
+  }
+}
+
+</script>
+</body>
+</html>
