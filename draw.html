@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.toolbar {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  background: white;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+svg {
+  width: 100vw;
+  height: 100vh;
+  background: #f9fafb;
+  cursor: crosshair;
+}
+
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+  <input type="color" id="colorPicker" value="#000000" />
+  <button id="undoBtn">Undo</button>
+</div>
+
+<svg id="canvas"></svg>
+<script>
+  const svg = document.getElementById("canvas");
+  const colorPicker = document.getElementById("colorPicker");
+  const undoBtn = document.getElementById("undoBtn");
+
+  let drawing = false;
+  let currentPath = null;
+  let paths = [];
+
+  svg.addEventListener("mousedown", (e) => {
+    drawing = true;
+
+    const { x, y } = getMousePosition(e);
+
+    currentPath = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "path"
+    );
+
+    currentPath.setAttribute("d", `M ${x} ${y}`);
+    currentPath.setAttribute("stroke", colorPicker.value);
+    currentPath.setAttribute("fill", "none");
+    currentPath.setAttribute("stroke-width", "3");
+    currentPath.setAttribute("stroke-linecap", "round");
+    currentPath.setAttribute("stroke-linejoin", "round");
+
+    svg.appendChild(currentPath);
+    paths.push(currentPath);
+  });
+
+  svg.addEventListener("mousemove", (e) => {
+    if (!drawing) return;
+
+    const { x, y } = getMousePosition(e);
+    const d = currentPath.getAttribute("d");
+    currentPath.setAttribute("d", `${d} L ${x} ${y}`);
+  });
+
+  svg.addEventListener("mouseup", () => {
+    drawing = false;
+    currentPath = null;
+  });
+
+  svg.addEventListener("mouseleave", () => {
+    drawing = false;
+  });
+
+  undoBtn.addEventListener("click", () => {
+    const last = paths.pop();
+    if (last) svg.removeChild(last);
+  });
+
+  function getMousePosition(event) {
+    const rect = svg.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+  }
+</script>
+
+</body>
+</html>

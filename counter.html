@@ -3,8 +3,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        :root {
+  --primary: #4f46e5;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --border: #e5e7eb;
+}
+
+.char-counter-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  font-family: system-ui, sans-serif;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.counter {
+  margin-top: 0.5rem;
+  text-align: right;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.counter.warning {
+  color: var(--warning);
+}
+
+.counter.danger {
+  color: var(--danger);
+}
+
+    </style>
 </head>
 <body>
-    
+    <div class="char-counter-container">
+  <label for="message">Your message</label>
+
+  <textarea
+    id="message"
+    maxlength="200"
+    placeholder="Start typing..."
+  ></textarea>
+
+  <div class="counter">
+    <span id="current">0</span>/<span id="max">200</span>
+  </div>
+</div>
+<script>
+  const textarea = document.getElementById("message");
+  const current = document.getElementById("current");
+  const max = document.getElementById("max");
+  const counter = document.querySelector(".counter");
+
+  const maxLength = textarea.maxLength;
+
+  textarea.addEventListener("input", () => {
+    const length = textarea.value.length;
+    current.textContent = length;
+
+    counter.classList.remove("warning", "danger");
+
+    if (length > maxLength * 0.8) {
+      counter.classList.add("warning");
+    }
+
+    if (length === maxLength) {
+      counter.classList.remove("warning");
+      counter.classList.add("danger");
+    }
+  });
+</script>
+
 </body>
 </html>

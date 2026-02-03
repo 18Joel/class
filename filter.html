@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+:root {
+  --card: #ffffff;
+  --accent: #22c55e;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #f9fafb;
+  padding: 2rem;
+}
+
+.shop {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.controls {
+  margin-bottom: 1.5rem;
+}
+
+select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 10px 20px var(--shadow);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.card.hide {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+    <div class="shop">
+  <div class="controls">
+    <label for="filter">Filter by category:</label>
+    <select id="filter">
+      <option value="all">All</option>
+      <option value="eco">Eco</option>
+      <option value="electronics">Electronics</option>
+      <option value="home">Home</option>
+    </select>
+  </div>
+
+  <div id="productGrid" class="grid"></div>
+</div>
+
+<script>
+  const products = [
+    { name: "Eco Bottle", category: "eco" },
+    { name: "Solar Charger", category: "electronics" },
+    { name: "LED Lamp", category: "home" },
+    { name: "Bamboo Toothbrush", category: "eco" },
+    { name: "Smart Plug", category: "electronics" }
+  ];
+
+  const grid = document.getElementById("productGrid");
+  const filter = document.getElementById("filter");
+
+  products.forEach(product => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.dataset.category = product.category;
+    card.innerHTML = `<h3>${product.name}</h3>`;
+    grid.appendChild(card);
+  });
+
+  filter.addEventListener("change", () => {
+    const value = filter.value;
+
+    document.querySelectorAll(".card").forEach(card => {
+      const match = value === "all" || card.dataset.category === value;
+      card.classList.toggle("hide", !match);
+    });
+  });
+</script>
+
+</body>
+</html>
